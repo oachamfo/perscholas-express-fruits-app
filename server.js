@@ -37,7 +37,7 @@ app.get("/vegetables/:indexOfVegetablesArray", (req, res) => {
   //res.send(vegetables[req.params.indexOfVegetablesArray]);
   res.render("vegetables/Show", {
     //second param must be an object
-    vegetable: vegetables[req.params.indexOfVegetablesArray], //there will be a variable available inside the ejs file called fruit, its value is fruits[req.params.indexOfFruitsArray]
+    vegetable: vegetables[req.params.indexOfVegetablesArray], //there will be a variable available inside the ejs file called vegetable, its value is vegetables[req.params.indexOfVegetablesArray]
   }); // renders the info using the appropriate template
 });
 
