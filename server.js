@@ -1,7 +1,4 @@
 //dependencies
-//npm install jsx-view-engine react react-dom --save
-//install express
-
 const express = require("express");
 const app = express();
 const jsxEngine = require("jsx-view-engine");
@@ -13,12 +10,44 @@ const vegetables = require("./models/vegetables.js");
 app.set("view engine", "jsx");
 app.engine("jsx", jsxEngine());
 
+//middleware
+app.use((req, res, next) => {
+  console.log("I run for all routes");
+  next();
+});
+app.use(express.urlencoded({ extended: false }));
+
 //fruits routes
+//Index
 app.get("/fruits/", (req, res) => {
   // res.send(fruits);
   res.render("fruits/Index", { fruits: fruits });
 });
 
+//New
+app.get("/fruits/new", (req, res) => {
+  res.render("fruits/new");
+});
+
+//Delete
+//Update
+
+//Create
+app.post("/fruits", (req, res) => {
+  if (req.body.readyToEat === "on") {
+    //if checked, req.body.readyToEat is set to 'on'
+    req.body.readyToEat = true; //do some data correction
+  } else {
+    //if not checked, req.body.readyToEat is undefined
+    req.body.readyToEat = false; //do some data correction
+  }
+  fruits.push(req.body);
+  console.log(fruits);
+  //res.send("data received"); //to send message to the browser
+  res.redirect("/fruits");
+});
+
+//Show
 app.get("/fruits/:indexOfFruitsArray", (req, res) => {
   // res.send(fruits[req.params.indexOfFruitsArray]);
   res.render("fruits/Show", {
@@ -28,11 +57,36 @@ app.get("/fruits/:indexOfFruitsArray", (req, res) => {
 });
 
 //vegetables routes
+//Index
 app.get("/vegetables/", (req, res) => {
   //res.send(vegetables);
   res.render("vegetables/Index", { vegetables: vegetables });
 });
 
+//New
+app.get("/vegetables/new", (req, res) => {
+  res.render("vegetables/New");
+});
+
+//Delete
+//Update
+
+//Create
+app.post("/vegetables", (req, res) => {
+  if (req.body.readyToEat === "on") {
+    //if checked, req.body.readyToEat is set to 'on'
+    req.body.readyToEat = true; //do some data correction
+  } else {
+    //if not checked, req.body.readyToEat is undefined
+    req.body.readyToEat = false; //do some data correction
+  }
+  vegetables.push(req.body);
+  console.log(vegetables);
+  //res.send("data received"); //to send message to the browser
+  res.redirect("/vegetables");
+});
+
+//Show
 app.get("/vegetables/:indexOfVegetablesArray", (req, res) => {
   //res.send(vegetables[req.params.indexOfVegetablesArray]);
   res.render("vegetables/Show", {
@@ -43,5 +97,5 @@ app.get("/vegetables/:indexOfVegetablesArray", (req, res) => {
 
 //listen on port 3000
 app.listen(3000, () => {
-  console.log("listening");
+  console.log("listening...");
 });
